@@ -12,26 +12,44 @@ class Fighter {
     }
     
     attack(player) {
-        let otherFighter = player
-        otherFighter.health = this.strength - otherFighter.defense;
-    //    if(player1){
-        // this.health = this.strength - this.defense;
+    let damage = 0;
+        if (this.strength > player.defense) {
+         damage = this.strength - player.defense;
+    }
+    player.health -= damage;
+        if (player.health < 0) {
+         player.health = 0;
+    }
         console.log(`${this.name} damage to ${player.name} who is left with ${player.health} `);
-    //    } else if (player2) {
-    //     this.health = this.strength - this.defense;
-    //     console.log(`${this.name} damage to ${this.player1} who is left with ${this.health} `);
-    //    }
     }
 
 }
-let rand = Math.random() * (10 -5) + 5
-let player1 = new Fighter ('mari', 10, rand, rand);
-let player2 = new Fighter ('charles', 10, rand, rand);
-console.log(player1)
-console.log(player2);
-// console.log(player2.defense)
+
+let player1 = new Fighter ('mari', 10, Math.floor(Math.random() * (10 -5) + 5) , Math.floor(Math.random() * (10 -5) + 5) );
+let player2 = new Fighter ('charles', 10, Math.floor(Math.random() * (10 -5) + 5), Math.floor(Math.random() * (10 -5) + 5) );
+
 player1.attack(player2);
-// player2.attack();
+player2.attack(player1);
+
+if (
+    player1.strength <= player2.defense &&
+    player2.strength <= player1.defense
+  ) {
+    console.log("IT'S A TIE");
+  } else {
+    while (player1.health > 0 && player2.health > 0) {
+      player1.attack(player2);
+      if (player2.health > 0) {
+        player2.attack(player1);
+      }
+    }
+    if (player1.health > 0) {
+      console.log("player1 WINS!");
+    } else if (player2.health > 0) {
+      console.log("player2 WINS!");
+    }
+  }
+
 
 
 
